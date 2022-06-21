@@ -5,7 +5,12 @@ import { CircleProvider } from './contexts/CircleProvider'
 import { PlacesProvider } from './contexts/PlacesContext'
 import { UserProvider } from './contexts/UserContext'
 import { State as VisitsState, VisitsProvider } from './contexts/VisitsContext'
+import FAB from './FAB'
 import Map from './Map'
+import PlacesAnalyticsModal from './PlacesAnalyticsModal'
+import { PlacesAnalyticsModalProvider } from './PlacesAnalyticsModal/PlacesAnalyticsModalContext'
+import PlacesFilterModal from './PlacesFilterModal'
+import { PlacesFilterModalProvider } from './PlacesFilterModal/PlacesFilterModalContext'
 import { JsonPlaceVisit } from './types'
 import UserModal from './UserModal'
 import VisitsDrawer from './VisitsDrawer'
@@ -71,9 +76,16 @@ const App = () => {
         <VisitsProvider initialState={initialVisitsState}>
           <VisitsDrawerProvider>
             <CircleProvider>
-              <VisitsDrawer />
-              <UserModal />
-              <Map />
+              <PlacesAnalyticsModalProvider>
+                <PlacesFilterModalProvider>
+                  <FAB />
+                  <VisitsDrawer />
+                  <PlacesFilterModal />
+                  <PlacesAnalyticsModal />
+                  <UserModal />
+                  <Map />
+                </PlacesFilterModalProvider>
+              </PlacesAnalyticsModalProvider>
             </CircleProvider>
           </VisitsDrawerProvider>
         </VisitsProvider>

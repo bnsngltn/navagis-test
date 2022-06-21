@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { ReactNode } from 'react'
 import { Place } from '../../types'
-import { PlacesProvider, usePlaces } from './'
+import { FilterPlacesProps, PlacesProvider, usePlaces } from './'
 
 const testPlaces: Place[] = [
   {
@@ -9,7 +9,7 @@ const testPlaces: Place[] = [
     name: 'Tokyo Tokyo Buffet',
     position: { lat: 1, lng: 2 },
     img: 'google.com',
-    specialties: ['japanese'],
+    specialties: ['japanese', 'cafe'],
   },
   {
     id: 2,
@@ -30,45 +30,41 @@ describe('PlacesContext', () => {
     })
 
     expect(result.current.places).toStrictEqual(testPlaces)
-    expect(result.current.filteredPlaces).toStrictEqual([])
   })
 
   describe('filterPlaces', () => {
-    describe('with q filter', () => {
-      it('should be case insensitive', () => {
+    describe('with specialties filter', () => {
+      it('should return all places that contains all specialties given', () => {
         const { result } = renderHook(() => usePlaces(), {
           wrapper,
         })
 
-        // first place
+        // SECOND PLACE ONLY
+        let filters: FilterPlacesProps = {
+          specialties: ['chicken'],
+        }
         act(() => {
-          result.current.filterPlaces({ q: 'tokYo tokYo buFFet' })
+          result.current.filterPlaces(filters)
         })
-        expect(result.current.filteredPlaces).toStrictEqual([testPlaces[0]])
+        expect(result.current.places).toStrictEqual([testPlaces[1]])
 
-        // second place
+        // FIRST PLACE ONLY
+        filters = {
+          specialties: ['cafe', 'japanese'],
+        }
         act(() => {
-          result.current.filterPlaces({ q: 'UnlIMITED chICKen wings' })
+          result.current.filterPlaces(filters)
         })
-        expect(result.current.filteredPlaces).toStrictEqual([testPlaces[1]])
-      })
+        expect(result.current.places).toStrictEqual([testPlaces[0]])
 
-      it('partial search strings should work', () => {
-        const { result } = renderHook(() => usePlaces(), {
-          wrapper,
-        })
-
-        // first place
+        // RETURN ALL
+        filters = {
+          specialties: [],
+        }
         act(() => {
-          result.current.filterPlaces({ q: 'TOKYO' })
+          result.current.filterPlaces(filters)
         })
-        expect(result.current.filteredPlaces).toStrictEqual([testPlaces[0]])
-
-        // second place
-        act(() => {
-          result.current.filterPlaces({ q: 'WINGS' })
-        })
-        expect(result.current.filteredPlaces).toStrictEqual([testPlaces[1]])
+        expect(result.current.places).toStrictEqual(testPlaces)
       })
     })
   })

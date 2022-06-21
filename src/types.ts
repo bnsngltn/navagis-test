@@ -15,23 +15,26 @@ export interface User {
 }
 
 // Places
-export type specialty =
-  | 'pizza'
-  | 'burger'
-  | 'chinese'
-  | 'steak'
-  | 'korean'
-  | 'american'
-  | 'japanese'
-  | 'seafood'
-  | 'grill'
-  | 'cafe'
-  | 'lechon'
-  | 'chicken'
-  | 'pork'
-  | 'beef'
-  | 'cake'
-  | 'drinks'
+export const SPECIALTIES = [
+  'pizza',
+  'burger',
+  'chinese',
+  'steak',
+  'korean',
+  'american',
+  'japanese',
+  'seafood',
+  'grill',
+  'cafe',
+  'lechon',
+  'chicken',
+  'pork',
+  'beef',
+  'cake',
+  'drinks',
+] as const
+
+export type specialty = typeof SPECIALTIES[number]
 
 export interface Place {
   id: number

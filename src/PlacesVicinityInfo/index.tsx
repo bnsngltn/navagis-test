@@ -61,5 +61,4 @@ const PlacesVicinityInfo: FunctionComponent<Props> = ({ circle, places }) => {
 const solveDistance = (pt1: LatLngLiteral, pt2: LatLngLiteral) => {
   return google.maps.geometry.spherical.computeDistanceBetween(pt1, pt2)
 }
-
 export default PlacesVicinityInfo

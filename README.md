@@ -57,12 +57,9 @@ All `custom hooks` were _unit tested_ using `Jest`.
 - [x] Restaurants have at least one specialty.
 - [x] Each restaurant can track the number of customers that visited.
 - [x] Customers can get directions to the restaurant from the current location. _(For this one, we are assuming that customers are staying on their home address which is given during sign in)_
-- [x] Value adding analytics _(For this project, we can track the approval rate of the restaurants since customers are able to give ratings to their visits)_
+- [x] Value adding analytics _(For this project, we can track the approval rate of the restaurants since customers are able to give ratings to their visits. Also these values are plotted against distance from Cebu City center and can be access by clicking the blue floating action button.)_
 - [x] Draw a circle or rectangle on the map and show the number of restaurants within the circle or rectangle. _(For this one, only circles are allowed to be drawn on screen. Intersection was calculated using builtin google api functions concerned with distances between LatLngLiterals)_
-
-# Unfinished Features
-
-- [ ] A layer panel can filter the restaurant type to show. _(An initial function was already implemented for filtering but was not attached to the UI because of time constraints)_
+- [x] A layer panel can filter the restaurant type to show. _(An initial function was already implemented for filtering but was not attached to the UI because of time constraints)_
 
 # Application Design
 
@@ -117,9 +114,3 @@ Controls the circle that appears in the UI. Ensures that only one `circle` at mo
 - Since we are going server less, the only way to hide my `Maps API key` is by using environment variables. But since these variables are still
   bundled during build time, there are still some exploits that can me made to abuse the api key. The solution for this one is to limit the `domain names`
   that can use the `API key`. Thankfully, `Google's console` already handles this.
-
-# Known Bugs
-
-There are some minor bugs discovered, but they don't really affect the core functionality:
-
-- The `InfoMarkers` when closed do not re appear unless the page is refreshed.

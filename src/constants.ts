@@ -23,7 +23,11 @@ export const MAP_OPTIONS: MapOptions = {
  * Could not seem to import the type definitions for the libraries which causes some issue with typescript.
  * Since with implicit typing, this results to `string[]` which is not accepted by the `useLoadScript` hook.
  */
-export const MAP_LIBRARIES: ('places' | 'drawing')[] = ['places', 'drawing']
+export const MAP_LIBRARIES: ('places' | 'drawing' | 'geometry')[] = [
+  'places',
+  'drawing',
+  'geometry',
+]
 /**
  * Used in rendering our custom markers
  */

@@ -57,8 +57,14 @@ const Map = () => {
     }
     fetchDirections()
   }, [user, destination])
+  const onDirectionsInfoClose = () => {
+    setDirections(undefined)
+  }
 
-  const { circle, addCircle } = useCircle()
+  const { circle, addCircle, clearCircle } = useCircle()
+  const onPlacesVicinityInfoClose = () => {
+    clearCircle()
+  }
 
   const mapRef = useRef<MapType>()
   const onLoad = useCallback((map: MapType) => {
@@ -107,12 +113,18 @@ const Map = () => {
         />
       )}
       {user && directions && (
-        <InfoWindow position={user.home.position}>
+        <InfoWindow
+          position={user.home.position}
+          onCloseClick={onDirectionsInfoClose}
+        >
           <DirectionsInfo directions={directions} />
         </InfoWindow>
       )}
       {circle && (
-        <InfoWindow position={circle.getCenter() ?? CEBU_CITY}>
+        <InfoWindow
+          position={circle.getCenter() ?? CEBU_CITY}
+          onCloseClick={onPlacesVicinityInfoClose}
+        >
           <PlacesVicinityInfo circle={circle} places={places} />
         </InfoWindow>
       )}

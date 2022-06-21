@@ -6,16 +6,15 @@ import {
   useContext,
   useState,
 } from 'react'
-import { Place } from '../../types'
+import { Place, specialty } from '../../types'
 
-export interface SearchPlacesProps {
-  q?: string
+export interface FilterPlacesProps {
+  specialties: specialty[]
 }
 
 export interface IContext {
   places: Place[]
-  filteredPlaces: Place[]
-  filterPlaces: (props: SearchPlacesProps) => void
+  filterPlaces: (props: FilterPlacesProps) => void
 }
 const Context = createContext<IContext | undefined>(undefined)
 
@@ -24,29 +23,28 @@ export interface PlacesProviderProps {
   children: ReactNode
 }
 export const PlacesProvider: FunctionComponent<PlacesProviderProps> = ({
-  places,
+  places: allPlaces,
   children,
 }) => {
-  const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([])
+  const [places, setPlaces] = useState<Place[]>(allPlaces)
 
   /**
    * Return the places that match the given filters.
    */
-  const filterPlaces = useCallback(
-    ({ q }: SearchPlacesProps) => {
-      if (!q) return
+  const filterPlaces = useCallback(({ specialties }: FilterPlacesProps) => {
+    if (specialties.length === 0) {
+      setPlaces(allPlaces)
+    }
 
-      setFilteredPlaces(
-        places.filter((p) => {
-          return p.name.toLowerCase().includes(q?.toLowerCase())
-        }),
-      )
-    },
-    [places],
-  )
+    setPlaces(
+      allPlaces.filter((p) => {
+        return specialties.every((s) => p.specialties.includes(s))
+      }),
+    )
+  }, [])
 
   return (
-    <Context.Provider value={{ places, filteredPlaces, filterPlaces }}>
+    <Context.Provider value={{ places, filterPlaces }}>
       {children}
     </Context.Provider>
   )
